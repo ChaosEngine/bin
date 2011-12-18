@@ -1,0 +1,23 @@
+#!/bin/bash
+
+in=$1;
+out=$2;
+
+if [ "$in" == "" ] || [ "$out" == "" ]; then
+	echo "Usage: $0 <input-file-name> <output-file-name>";
+	exit 1;
+fi
+#fin=$(basename $in);
+#fout=$(basename $out);
+#din=$(dirname $in);
+#dout=$(dirname $out);
+
+#echo -e "\n"
+#echo "nice -n 20 /usr/bin/mencoder $in -o $out -oac copy -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:vbitrate=8000 -aid 1 && mv -f $out $in"
+#echo -e "\n"
+
+/usr/bin/nice -n 20 /usr/bin/mencoder "$in" -o "$out" -oac copy -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:vbitrate=8000;
+
+#ffmpeg -i ~/Viddeos/xxxxx.mkv -threads 4 -acodec ac3 -ac 6 -ab 448k /mnt/audio.ac3
+
+# mynice mencoder ~/Videos/xxxxx.mkv -o video.h264 -nosound -ovc x264 -x264encopts bframes=3:weight_b:partitions=all:8x8dct:subq=5:frameref=2:bitrate=7000 -sub ~/Videos/text.txt -subcp cp1250

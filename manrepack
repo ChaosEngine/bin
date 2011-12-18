@@ -1,0 +1,21 @@
+#! /bin/bash
+
+if ! [ -n "$1" ]; then
+	echo 'Need one argument with directory wher to create repacked mans';
+	exit 1;
+fi
+
+[ -d "$1" ] || { echo "Directory not exists"; exit 1; }
+cd $1
+
+for i in `find /usr/share/man/ -type f -name *.gz`;
+do
+	if [ -f $i ]; then
+		name=$(basename $(echo $i | sed 's/.gz//'))
+		echo $name
+		gunzip -cdf $i > $name
+		bzip2 -z9 $name
+	fi
+done
+
+exit 0

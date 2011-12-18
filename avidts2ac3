@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#avidts2ac3 (extracts DTS tracks from video file and converts it to ac3)
+
+#requirements: mplayer / ffmpeg 
+
+#variables
+current_directory=$( pwd )
+OUTPUT_AVI="/tmp/aaa/output_avi.av" #'av' extension used to prevent filename conflict
+OUTPUT_WAV="output_wav.wav"
+OUTPUT_AC3="/tmp/aaa/output_ac3.ac3"
+
+#remove spaces
+for i in *.mkv; do mv "$i" `echo $i | tr ' ' '_'`; done > /dev/null 2>&1 &
+
+#remove uppercase
+for i in *.[Mm][Kk][Vv]; do mv "$i" `echo $i | tr '[A-Z]' '[a-z]'`; done > /dev/null 2>&1 &
+
+#rip with Mencoder / encode with ffmpeg
+for i in *.mkv ; do \
+	nice -n 10 mencoder $i -oac pcm -ovc copy -o $OUTPUT_AVI && \
+	nice -n 10 ffmpeg -i $OUTPUT_AVI -acodec copy $OUTPUT_WAV && \
+	nice -n 10 ffmpeg -i $OUTPUT_WAV -ac 2 -ab 192 -ar 48000 $OUTPUT_AC3 && \
+	mv $OUTPUT_AC3 "`basename "$i"`.ac3" && rm $OUTPUT_WAV;
+done
+
+#Cleanup
+rm $OUTPUT_AVI
+
+exit;

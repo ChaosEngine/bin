@@ -1,0 +1,15 @@
+#!/bin/bash
+
+in=$1;
+out=$2;
+
+if [ "$in" == "" ] || [ "$out" == "" ]; then
+	echo "Usage: $0 <input-file-name> <output-file-name>";
+	exit 1;
+fi
+#fin=$(basename $in);
+#fout=$(basename $out);
+#din=$(dirname $in);
+#dout=$(dirname $out);
+
+/opt/bin/unrar p -inul "$in" | /usr/bin/nice -n 20 /usr/bin/mencoder - -o "$out" -oac copy -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:vbitrate=8000 -cache 2048

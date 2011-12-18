@@ -1,0 +1,17 @@
+#!/bin/bash
+# recoding mpc files to mp3 files
+#
+#for LOG in `ls *.mpc`
+#do
+#	echo $LOG
+#	#mppdec $LOG | lame --preset extreme - /mnt/usb/$LOG.mp3
+#	#echo $LOG.mp3
+#done
+
+for i in *.wav;
+do
+	#echo $i ${i%.mpc}.mp3;
+	cat "$i" | lame --preset extreme - "${i%.wav}.mp3";
+	#echo "$i" "/mnt/usb/${i%.mpc}.mp3";
+	#echo /mnt/usb/$i
+done

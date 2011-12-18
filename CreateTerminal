@@ -1,0 +1,19 @@
+#!/bin/bash
+#echo $1;
+pgrep urxvtd;
+if [ $? = "0" ]; then
+	#echo "urxvtd deamon present";
+	if [ -n "$1" ]; then
+		/usr/bin/urxvtc -e su -;
+	else
+		/usr/bin/urxvtc;
+	fi;
+else
+	#echo "launching urxvtd deamon";
+	/usr/bin/urxvtd -q -f -o;
+	if [ -n "$1" ]; then
+		/usr/bin/urxvtc -e su -;
+	else
+		/usr/bin/urxvtc;
+	fi;
+fi

@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/mplayer tv:// -tv driver=v4l:width=640:height=480:device=/dev/video0

@@ -1,0 +1,3 @@
+#!/bin/bash
+#vncviewer -compresslevel 0 -quality 0 -encodings "raw copyrect tight hextile zlib corre rre" -passwd ~/.vnc/passwd chaos1:1 &
+vncviewer -compresslevel 0 -quality 0 -passwd ~/.vnc/passwd chaos1:1 &

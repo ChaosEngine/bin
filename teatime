@@ -1,0 +1,25 @@
+#! /bin/bash
+#
+#for i in `find /usr/ -iname *.wav 2> /dev/null`
+#do
+#	#echo $i
+#	playsound $i
+#done
+
+#set -x
+
+time2sleep=$1
+if ! [ -n $time2sleep ] || [ -z $time2sleep ]; then
+	time2sleep=3
+fi
+#time2sleep=$(($time2sleep * 60))
+#if [ $time2sleep == "0" ]; then
+#	time2sleep=3
+#fi
+
+kdialog=`which kdialog 2> /dev/null`;
+
+sleep `echo $time2sleep``echo m` && $(if ! [ -z $kdialog ] ; then $kdialog --msgbox 'herbata gotowa!!!!!!'; fi &
+/usr/bin/aplay /usr/lib/openoffice/basis3.2/share/gallery/sounds/kongas.wav \
+	/usr/lib/openoffice/basis3.2/share/gallery/sounds/untie.wav 2> /dev/null) &
+

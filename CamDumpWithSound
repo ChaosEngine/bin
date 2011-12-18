@@ -1,0 +1,11 @@
+#!/bin/bash
+name=$1
+
+if [ "$name" == "" ]; then
+	echo "Usage: $0 <dump-file-name>";
+	exit 1;
+fi
+
+mencoder tv:// -tv driver=v4l:width=640:height=480:device=/dev/video0 -nosound -ovc lavc -o $name-vid.avi | arecord -f cd $name-snd.wav;
+mencoder -o $name.avi -ovc copy -audiofile $name-snd.wav -oac pcm $name-vid.avi;
+rm -f $name-snd.wav $name-vid.avi;
