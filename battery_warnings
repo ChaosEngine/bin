@@ -1,0 +1,16 @@
+#!/bin/bash
+
+checkBatteryLow()
+{
+	/usr/bin/on_ac_power || LC_ALL="POSIX" /usr/bin/xmessage -timeout 5 -default "okay"  "Niski stan baterii; zostalo $1 procent"
+}
+checkBatteryCrit()
+{
+	/usr/bin/on_ac_power || LC_ALL="POSIX" /usr/bin/xmessage -timeout 5 -default "okay" "Krytyczny stan baterii; zostalo $1 procent"
+}
+
+if [[ "$1" == "0" ]] ; then
+	checkBatteryLow "$2"
+else
+	checkBatteryCrit "$2"
+fi

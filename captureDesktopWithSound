@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+NAME=$(basename $0)
+SNDFILE=$(mktemp /tmp/$NAME.XXXXXX) || exit 1
+#mkfifo /tmp/audio.pip
+
+arecord -f S16_LE -c1 -r44100 -t wav $SNDFILE & PIDaudio=$!
+
+ffmpeg -y -i $SNDFILE -f x11grab -s 1600x900 -r 25 -i :0.0+,224 -vcodec libx264 -threads 0 -f matroska -acodec ac3 "$1" & PIDvideo=$!
+
+#arecord -D default -t raw -c 1 -f S16_LE -r 48000 - | ffmpeg -y -f s16le -ab 128k -ar 48000 -i - -acodec ac3 -f x11grab \
+#-s 1600x900 -r 25 -i :0.0+,224 -vcodec libx264 -threads 0 -f matroska capture.mkv
+
+
+read -p "Press enter to stop recording"
+kill $PIDvideo $PIDaudio
+rm -f $SNDFILE
