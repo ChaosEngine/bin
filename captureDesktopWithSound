@@ -19,7 +19,7 @@ arecord -f S16_LE -c1 -r44100 -t wav $SNDFILE & PIDaudio=$!
 
 #start recording video
 #ffmpeg -y -i $SNDFILE -f x11grab -s 1600x900 -r 25 -i :0.0+,224 -vcodec libx264 -threads 0 -f matroska -acodec ac3 "$1" & PIDvideo=$!
-ffmpeg -y -f x11grab -s 1600x900 -r 25 -i :0.0+,224 -vcodec libx264 -threads 0 -f matroska $VIDFILE & PIDvideo=$!
+ffmpeg -y -f x11grab -s 1600x900 -r 25 -i :0.0+,224 -vcodec libx264 -threads 4 -f matroska $VIDFILE & PIDvideo=$!
 
 #arecord -D default -t raw -c 1 -f S16_LE -r 48000 - | ffmpeg -y -f s16le -ab 128k -ar 48000 -i - -acodec ac3 -f x11grab \
 #-s 1600x900 -r 25 -i :0.0+,224 -vcodec libx264 -threads 0 -f matroska capture.mkv
