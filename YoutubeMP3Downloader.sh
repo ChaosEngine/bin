@@ -11,12 +11,13 @@ XRGS="/usr/bin/xargs"
 ##########functions###############
 fileProcess()
 {
+	cd "$MPATH";
 	ytbid=$($YTB --simulate --skip-download --no-playlist --no-post-overwrites --get-id "$1");
-	if [ ! -e $ytbid ] && [ $( ls "$MPATH/"*$ytbid* | wc -l) -ge 1 ]; then
+	if [ ! -e $ytbid ] && [ $( ls *$ytbid* | wc -l) -ge 1 ]; then
 		echo "exists [$ytbid] skipping";
 	else
 		echo "not exists [$ytbid] downloading and converting";
-		$YTB --extract-audio --audio-format mp3 --rate-limit 2.0M --no-playlist --no-post-overwrites --no-overwrites --exec "mv {} '$MPATH'"  "$1"
+		$YTB --extract-audio --audio-format mp3 --rate-limit 2.0M --no-playlist --no-post-overwrites --no-overwrites "$1"
 	fi
 }
 LockfileChecking()
