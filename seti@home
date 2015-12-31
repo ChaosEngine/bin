@@ -1,3 +1,0 @@
-#!/bin/bash
-cd $HOME/BOINC
-ionice -c3 nice -n 19 /usr/bin/boinc_client
