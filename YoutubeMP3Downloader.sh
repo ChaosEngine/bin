@@ -17,7 +17,8 @@ fileProcess()
 		echo "exists [$ytbid] skipping";
 	else
 		echo "not exists [$ytbid] downloading and converting";
-		$YTB --extract-audio --audio-format mp3 --rate-limit 2.0M --no-playlist --no-post-overwrites --no-overwrites "$1"
+		$YTB --extract-audio --audio-format mp3 --rate-limit 4.0M --no-playlist --no-post-overwrites --no-overwrites "$1"
+		chmod 644 *$ytbid*; touch *$ytbid*
 	fi
 }
 LockfileChecking()

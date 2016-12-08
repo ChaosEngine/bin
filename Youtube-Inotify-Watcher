@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+while true #run indefinitely
+do 
+	#inotifywait -e modify,close_write,create "/home/ftp/muzyka dla mamy/MUZYKA DO KONWERSJI - tu wklej linki z youtube.txt" && /bin/bash backup-script
+	inotifywait -e modify,close_write "/home/ftp/muzyka dla mamy/MUZYKA DO KONWERSJI - tu wklej linki z youtube.txt" && /bin/bash $HOME/bin/YoutubeMP3Downloader.sh | mail -s inotify $USER
+done

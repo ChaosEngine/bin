@@ -4,7 +4,7 @@ seti@home ()
 {
 	cwd=`pwd`;
 	cd $HOME/BOINC
-	ionice -c3 nice -n 19 /usr/bin/boinc_client
+	ionice -c3 nice -n 19 /usr/bin/boinc
 	cd $cwd;
 }
 VirtualBox () 
@@ -46,7 +46,8 @@ vncStart ()
 	if [ "$(pidof Xvnc)" ]; then
 		echo "VNC is already running"; return;
 	fi
-	vncserver -interface 127.0.0.1 -geometry 1280x800 -localhost -dontdisconnect -nolisten tcp;
+	#vncserver -interface 127.0.0.1 -geometry 1280x800 -localhost -nolisten tcp -autokill;
+	vncserver -interface 127.0.0.1 -geometry 1600x900 -localhost -nolisten tcp -autokill;
 }
 vncStop ()
 {
@@ -64,6 +65,10 @@ e24cloudTwo ()
 {
 	ssh -p 222 -L 5903:localhost:5901 chaos@chaos.engine.gen2.org -t ". /etc/profile; screen -dR"
 }
+chaosengine()
+{
+	ssh -p 222 -L 5903:localhost:5901 chaos@chaosengine.ml -t ". /etc/profile; screen -dR"
+}
 vncE24cloudTwo()
 {       
 	vncviewer -passwd ~/.vnc/passwd -encodings "tight copyrect" -compresslevel 6 -quality 6 localhost:3 &
@@ -72,4 +77,8 @@ vncE24cloudTwo()
 LightWorks()
 {
 	LD_PRELOAD=~/usr/lib/libjpeg.so.8.4.0 lightworks;
+}
+wakeChaos1()
+{
+	/usr/bin/wakeonlan 00:10:dc:fb:cc:1f
 }
