@@ -118,14 +118,14 @@ case $1 in
 		gawk 'BEGIN {FS=" "; printf("call ch_tst.NetstatInsert(\""); } /:/ { if($17=="") printf("%s %s\n", $1, $9); else printf("%s%s %s\n", $1, $2, $10); } END {printf("\", ");}' /proc/net/dev;
 		gawk 'BEGIN {FS=" "} /cpu |processes|intr|procs_running|ctxt|btime|/ { if($1=="cpu") printf("%i, %i, %i, %i, %i, %i, ", $2, $3, $4, $5, $6, $7); else if($1=="intr") printf("%i, ", $2); else if($1=="processes") printf("%i, ", $2); else if($1=="procs_running") printf("%i, ", $2); else if($1=="ctxt") printf("%i, ", $2); else if($1=="btime") printf("%i, ", $2); }' /proc/stat;
 		gawk 'BEGIN {FS=" "} /MemTotal:|MemFree:|Cached:|SwapTotal:|SwapFree:/ { if($1=="MemTotal:") printf("%i, ", $2); else if($1=="MemFree:") printf("%i, ", $2); else if($1=="Cached:") printf("%i, ", $2); else if($1=="SwapTotal:") printf("%i, ", $2); else if($1=="SwapFree:") printf("%i", $2); } END {printf(", ");}' /proc/meminfo;
-		gawk '{ printf "%s, ", $0 }' /sys/bus/platform/devices/coretemp.0/hwmon/hwmon0/temp1_input;
+		gawk '{ printf "%s, ", $0 }' /sys/bus/platform/devices/coretemp.0/hwmon/hwmon1/temp1_input;
 		echo $(wc -l < /proc/net/tcp) ")"
 		;;
 	-d) #-d is running version, -s is single test
 		gawk 'BEGIN {FS=" "; printf("call ch_tst.NetstatInsert(\""); } /:/ { if($17=="") printf("%s %s\n", $1, $9); else printf("%s%s %s\n", $1, $2, $10); } END {printf("\", ");}' /proc/net/dev;
 		gawk 'BEGIN {FS=" "} /cpu |processes|intr|procs_running|ctxt|btime|/ { if($1=="cpu") printf("%i, %i, %i, %i, %i, %i, ", $2, $3, $4, $5, $6, $7); else if($1=="intr") printf("%i, ", $2); else if($1=="processes") printf("%i, ", $2); else if($1=="procs_running") printf("%i, ", $2); else if($1=="ctxt") printf("%i, ", $2); else if($1=="btime") printf("%i, ", $2); }' /proc/stat;
 		gawk 'BEGIN {FS=" "} /MemTotal:|MemFree:|Cached:|SwapTotal:|SwapFree:/ { if($1=="MemTotal:") printf("%i, ", $2); else if($1=="MemFree:") printf("%i, ", $2); else if($1=="Cached:") printf("%i, ", $2); else if($1=="SwapTotal:") printf("%i, ", $2); else if($1=="SwapFree:") printf("%i", $2); } END {printf(", ");}' /proc/meminfo;
-		gawk '{ printf "%s, ", $0 }' /sys/bus/platform/devices/coretemp.0/hwmon/hwmon0/temp1_input;
+		gawk '{ printf "%s, ", $0 }' /sys/bus/platform/devices/coretemp.0/hwmon/hwmon1/temp1_input;
 		echo $(wc -l < /proc/net/tcp) ")"
 		;;
     +([0-9])[smhd] ) # main execution

@@ -4,7 +4,8 @@ seti@home ()
 {
 	cwd=`pwd`;
 	cd $HOME/BOINC
-	ionice -c3 nice -n 19 /usr/bin/boinc
+	#ionice -c3 nice -n 19 /usr/bin/boinc
+	ionice -c3 /usr/bin/boinc
 	cd $cwd;
 }
 VirtualBox () 
