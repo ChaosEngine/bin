@@ -83,3 +83,7 @@ wakeChaos1()
 {
 	/usr/bin/wakeonlan 00:10:dc:fb:cc:1f
 }
+wakeArch()
+{
+	/usr/bin/wakeonlan 50:e5:49:80:b3:19
+}
