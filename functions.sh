@@ -62,13 +62,13 @@ startRtorrent()
 		/bin/su -c rtorrent p2p;
 	fi;
 }
-e24cloudTwo ()
+grochow()
 {
-	ssh -p 222 -L 5903:localhost:5901 chaos@chaos.engine.gen2.org -t ". /etc/profile; screen -dR"
+	ssh -p 222 -L 5902:localhost:5901 chaos@grochow.hopto.org -t ". /etc/profile; screen -dR"
 }
 chaosengine()
 {
-	ssh -p 222 -L 5903:localhost:5901 chaos@chaosengine.ml -t ". /etc/profile; screen -dR"
+	ssh -p 222 -L 5903:localhost:5901 chaos@chaosengine.tk -t ". /etc/profile; screen -dR"
 }
 vncE24cloudTwo()
 {       
