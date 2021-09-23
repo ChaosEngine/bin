@@ -47,8 +47,8 @@ vncStart ()
 	if [ "$(pidof Xvnc)" ]; then
 		echo "VNC is already running"; return;
 	fi
-	#vncserver -interface 127.0.0.1 -geometry 1280x800 -localhost -nolisten tcp -autokill;
-	vncserver -interface 127.0.0.1 -geometry 1600x900 -localhost -nolisten tcp -autokill;
+	vncserver -interface 127.0.0.1 -geometry 1366x800 -localhost -nolisten tcp -autokill;
+	#vncserver -interface 127.0.0.1 -geometry 1600x900 -localhost -nolisten tcp -autokill;
 }
 vncStop ()
 {
@@ -68,7 +68,7 @@ grochow()
 }
 chaosengine()
 {
-	ssh -p 222 -L 5903:localhost:5901 chaos@chaosengine.tk -t ". /etc/profile; screen -dR"
+	ssh -p 222 -L 5903:localhost:5901 chaos@chaosengine.cf -t ". /etc/profile; screen -dR"
 }
 vncE24cloudTwo()
 {       
@@ -87,3 +87,8 @@ wakeArch()
 {
 	/usr/bin/wakeonlan 50:e5:49:80:b3:19
 }
+myGitPrompt()
+{
+	source /usr/share/git/git-prompt.sh && export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]$(__git_ps1)\[\033[01;34m\] \$\[\033[00m\] ';
+}
+
