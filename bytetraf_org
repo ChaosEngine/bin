@@ -114,37 +114,19 @@ case $1 in
     -h) usage ;;
     -m) manual ;;
     -l) more $0; exit 1 ;;
-    -d) #ch_debug
-#[ $2 ] || { echo >&2 missing second argument, type $NAME_ -h for help; exit 1; }
-#interface_check
-#intg=${1%[s|m|h|d]*}
-#unit=${1##*[!s|m|h|d]}
-
-#[[ $unit == s ]] && div=1
-#[[ $unit == m ]] && div=60
-#[[ $unit == h ]] && div=3600
-#[[ $unit == d ]] && div=86400
-	
-#while grep $interface < /proc/net/dev &>/dev/null ;do
-#received=$(byte_count r)
-#transmit=$(byte_count t)
-#sleep $1 # time interval for how often to grab data from /proc/net/dev
-#nreceived=$(byte_count r)
-#ntransmit=$(byte_count t)
-#rdiff=$((( $nreceived - $received )))
-#tdiff=$((( $ntransmit - $transmit )))
-#rate=$((( ($rdiff + $tdiff) / ( $div * $intg ) )))
-			#echo "call ch_tst.NetstatInsert($received, $transmit, '$interface', '`grep : /proc/net/dev`')"
-#break
-#done
+    -s) #ch_debug
 		gawk 'BEGIN {FS=" "; printf("call ch_tst.NetstatInsert(\""); } /:/ { if($17=="") printf("%s %s\n", $1, $9); else printf("%s%s %s\n", $1, $2, $10); } END {printf("\", ");}' /proc/net/dev;
 		gawk 'BEGIN {FS=" "} /cpu |processes|intr|procs_running|ctxt|btime|/ { if($1=="cpu") printf("%i, %i, %i, %i, %i, %i, ", $2, $3, $4, $5, $6, $7); else if($1=="intr") printf("%i, ", $2); else if($1=="processes") printf("%i, ", $2); else if($1=="procs_running") printf("%i, ", $2); else if($1=="ctxt") printf("%i, ", $2); else if($1=="btime") printf("%i, ", $2); }' /proc/stat;
-		gawk 'BEGIN {FS=" "} /MemTotal:|MemFree:|Cached:|SwapTotal:|SwapFree:/ { if($1=="MemTotal:") printf("%i, ", $2); else if($1=="MemFree:") printf("%i, ", $2); else if($1=="Cached:") printf("%i, ", $2); else if($1=="SwapTotal:") printf("%i, ", $2); else if($1=="SwapFree:") printf("%i", $2); } END {printf(")");}' /proc/meminfo;
+		gawk 'BEGIN {FS=" "} /MemTotal:|MemFree:|Cached:|SwapTotal:|SwapFree:/ { if($1=="MemTotal:") printf("%i, ", $2); else if($1=="MemFree:") printf("%i, ", $2); else if($1=="Cached:") printf("%i, ", $2); else if($1=="SwapTotal:") printf("%i, ", $2); else if($1=="SwapFree:") printf("%i", $2); } END {printf(", ");}' /proc/meminfo;
+		gawk '{ printf "%s, ", $0 }' /sys/bus/platform/devices/coretemp.0/hwmon/hwmon1/temp1_input;
+		echo $(wc -l < /proc/net/tcp) ")"
 		;;
-	-s) #single execution made by ch_
-		#printf "call ch_tst.NetstatInsert('`gawk 'BEGIN {FS=" ";RS=":"} { if(NR > 1) {printf("%i:%s %s\n", NR - 2, $1, $9);} }' /proc/net/dev`')"
+	-d) #-d is running version, -s is single test
 		gawk 'BEGIN {FS=" "; printf("call ch_tst.NetstatInsert(\""); } /:/ { if($17=="") printf("%s %s\n", $1, $9); else printf("%s%s %s\n", $1, $2, $10); } END {printf("\", ");}' /proc/net/dev;
-		gawk 'BEGIN {FS=" "} /cpu |processes|intr|procs_running|ctxt|btime|/ { if($1=="cpu") printf("%i, %i, %i, %i, %i, %i, ", $2, $3, $4, $5, $6, $7); else if($1=="intr") printf("%i, ", $2); else if($1=="processes") printf("%i, ", $2); else if($1=="procs_running") printf("%i", $2); else if($1=="ctxt") printf("%i, ", $2); else if($1=="btime") printf("%i, ", $2); } END {printf(")");}' /proc/stat;
+		gawk 'BEGIN {FS=" "} /cpu |processes|intr|procs_running|ctxt|btime|/ { if($1=="cpu") printf("%i, %i, %i, %i, %i, %i, ", $2, $3, $4, $5, $6, $7); else if($1=="intr") printf("%i, ", $2); else if($1=="processes") printf("%i, ", $2); else if($1=="procs_running") printf("%i, ", $2); else if($1=="ctxt") printf("%i, ", $2); else if($1=="btime") printf("%i, ", $2); }' /proc/stat;
+		gawk 'BEGIN {FS=" "} /MemTotal:|MemFree:|Cached:|SwapTotal:|SwapFree:/ { if($1=="MemTotal:") printf("%i, ", $2); else if($1=="MemFree:") printf("%i, ", $2); else if($1=="Cached:") printf("%i, ", $2); else if($1=="SwapTotal:") printf("%i, ", $2); else if($1=="SwapFree:") printf("%i", $2); } END {printf(", ");}' /proc/meminfo;
+		gawk '{ printf "%s, ", $0 }' /sys/bus/platform/devices/coretemp.0/hwmon/hwmon1/temp1_input;
+		echo $(wc -l < /proc/net/tcp) ")"
 		;;
     +([0-9])[smhd] ) # main execution
 
