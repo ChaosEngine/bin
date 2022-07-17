@@ -47,8 +47,9 @@ vncStart ()
 	if [ "$(pidof Xvnc)" ]; then
 		echo "VNC is already running"; return;
 	fi
-	vncserver -interface 127.0.0.1 -geometry 1366x800 -localhost -nolisten tcp -autokill;
-	#vncserver -interface 127.0.0.1 -geometry 1600x900 -localhost -nolisten tcp -autokill;
+	##vncserver -interface 127.0.0.1 -geometry 1600x900 -localhost -nolisten tcp -autokill;
+	#vncserver -interface 127.0.0.1 -geometry 1366x800 -localhost -nolisten tcp -autokill;
+	vncserver :1 > /dev/null 2>&1;
 }
 vncStop ()
 {
@@ -91,4 +92,15 @@ myGitPrompt()
 {
 	source /usr/share/git/git-prompt.sh && export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]$(__git_ps1)\[\033[01;34m\] \$\[\033[00m\] ';
 }
-
+curltime()
+{
+    /usr/bin/curl -so /dev/null -w "\
+   namelookup:  %{time_namelookup}s\n\
+      connect:  %{time_connect}s\n\
+   appconnect:  %{time_appconnect}s\n\
+  pretransfer:  %{time_pretransfer}s\n\
+     redirect:  %{time_redirect}s\n\
+starttransfer:  %{time_starttransfer}s\n\
+-------------------------\n\
+        total:  %{time_total}s\n" "$@"
+}
