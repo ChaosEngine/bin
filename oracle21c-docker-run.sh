@@ -3,10 +3,10 @@
 
 docker run -d --rm --name oracle --hostname oracle21c \
 	-p 1521:1521 -p 5500:5500 \
-	--memory=4g --memory-swap=5g \
-	-e INIT_SGA_SIZE=1700 \
-	-e INIT_PGA_SIZE=1700 \
-	-e 'ORACLE_PWD=password12423556g' \
+	--memory=4g --memory-swap=4g \
+	-e INIT_SGA_SIZE=1600 \
+	-e INIT_PGA_SIZE=1600 \
+	-e 'ORACLE_PWD=P4ssw0rd' \
 	-e "TZ=$(cat /etc/timezone)" \
 	-e 'DISPLAY=:1' \
 	-v /dev/shm --tmpfs /dev/shm:rw,exec \
@@ -15,8 +15,11 @@ docker run -d --rm --name oracle --hostname oracle21c \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	oracle/database:21.3.0-ee
 
-#	-e INIT_SGA_SIZE=1300 \
-#	-e INIT_PGA_SIZE=676 \	
+	#-e INIT_SGA_SIZE=1700 \
+	#-e INIT_PGA_SIZE=1700 \
+
+##	-e INIT_SGA_SIZE=1300 \
+##	-e INIT_PGA_SIZE=676 \	
 
 
 #docker run -d --rm --name oracle --hostname oracle21c \
