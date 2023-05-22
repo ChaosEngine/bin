@@ -104,3 +104,14 @@ starttransfer:  %{time_starttransfer}s\n\
 -------------------------\n\
         total:  %{time_total}s\n" "$@"
 }
+dockhandRun() {
+	docker run -d --name dockhand --restart unless-stopped   -p 3001:3000 --env PUID=1000 --env PGID=1000 --group-add 991  -v /var/run/docker.sock:/var/run/docker.sock   -v /home/chaos/dockhand_data:/app/data   fnsys/dockhand:latest
+}
+postgresql-docker-run() {
+	docker run --name postgres -d --rm \
+		-p 5432:5432 \
+		-e POSTGRES_PASSWORD=P4ssw0rd \
+		-v /mnt/optane15GB/var/lib/postgresql:/var/lib/postgresql \
+		dhi.io/postgres:18-alpine3.22
+}
+

@@ -19,15 +19,15 @@ $OPENSSL x509 -in "$VHOME/config/cert.pem" -text -noout
 $DOCKER run -d --rm --name vault \
 	-p $PORT:$PORT \
 	-v "$VHOME":/vault \
-	vault server
+	hashicorp/vault server
 $SLEEP 2
 IP_ADDRESS="$($DOCKER inspect -f '{{.NetworkSettings.IPAddress}}' vault)"
 
-$CURL -k --request POST --data '{ "key": "'$(jq -r .keys_base64[0] < $KEYS_FILENAME)'" }' "https://$IP_ADDRESS:$PORT/v1/sys/unseal" | $JQ \
+$CURL -k --request POST --data '{ "key": "'$($JQ -r .keys_base64[0] < $KEYS_FILENAME)'" }' "https://$IP_ADDRESS:$PORT/v1/sys/unseal" | $JQ \
 	&& $SLEEP 1 && \
-$CURL -k --request POST --data '{ "key": "'$(jq -r .keys_base64[1] < $KEYS_FILENAME)'" }' "https://$IP_ADDRESS:$PORT/v1/sys/unseal" | $JQ \
+$CURL -k --request POST --data '{ "key": "'$($JQ -r .keys_base64[1] < $KEYS_FILENAME)'" }' "https://$IP_ADDRESS:$PORT/v1/sys/unseal" | $JQ \
 	&& $SLEEP 1 && \
-$CURL -k --request POST --data '{ "key": "'$(jq -r .keys_base64[2] < $KEYS_FILENAME)'" }' "https://$IP_ADDRESS:$PORT/v1/sys/unseal" | $JQ
+$CURL -k --request POST --data '{ "key": "'$($JQ -r .keys_base64[2] < $KEYS_FILENAME)'" }' "https://$IP_ADDRESS:$PORT/v1/sys/unseal" | $JQ
 
 
 $JQ -r .root_token < "$KEYS_FILENAME"
