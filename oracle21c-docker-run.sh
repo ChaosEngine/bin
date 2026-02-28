@@ -1,12 +1,14 @@
 #!/bin/bash
 #
 
+: "${ORACLE_PWD:?ORACLE_PWD must be set}"
+
 docker run -d --rm --name oracle --hostname oracle21c \
 	-p 1521:1521 -p 5500:5500 \
 	--memory=4g --memory-swap=4g \
 	-e INIT_SGA_SIZE=1600 \
 	-e INIT_PGA_SIZE=1600 \
-	-e 'ORACLE_PWD=P4ssw0rd' \
+	-e "ORACLE_PWD=${ORACLE_PWD}" \
 	-e "TZ=$(cat /etc/timezone)" \
 	-e 'DISPLAY=:1' \
 	-v /dev/shm --tmpfs /dev/shm:rw,exec \
@@ -25,7 +27,7 @@ docker run -d --rm --name oracle --hostname oracle21c \
 #docker run -d --rm --name oracle --hostname oracle21c \
 #	--memory=3g --memory-swap="4g" \
 #	-p 1521:1521 -p 5500:5500 \
-#	-e 'ORACLE_PWD=P4ssw0rd' \
+#	-e "ORACLE_PWD=${ORACLE_PWD}" \
 #	-e "TZ=$(cat /etc/timezone)" \
 #	-e 'DISPLAY=:1' \
 #	-v /dev/shm --tmpfs /dev/shm:rw,exec \

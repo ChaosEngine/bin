@@ -1,11 +1,13 @@
 #!/bin/bash
 #
 
+: "${ORACLE_PWD:?ORACLE_PWD must be set}"
+
 docker run -d --rm --name oracle --hostname oracle19c \
 	-p 1521:1521 \
 	--memory=4g --memory-swap=4g \
 	-e AUTO_MEM_CALCULATION=true \
-	-e 'ORACLE_PWD=P4ssw0rd' \
+	-e "ORACLE_PWD=${ORACLE_PWD}" \
 	-e "TZ=$(cat /etc/timezone)" \
 	-v /dev/shm --tmpfs /dev/shm:rw,exec \
 	-v /mnt/optane15GB/var/lib/oracle19c/data-pdb:/opt/oracle/oradata \

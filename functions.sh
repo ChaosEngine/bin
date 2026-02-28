@@ -105,7 +105,7 @@ starttransfer:  %{time_starttransfer}s\n\
         total:  %{time_total}s\n" "$@"
 }
 pastebin () {
-  API_KEY='qNBRIuQN_aAjIIoz7m7ae1jY7V9Y92IV'
+  API_KEY="${PASTEBIN_API_KEY:?PASTEBIN_API_KEY must be set}"
 
   if [[ -z $1 ]]
   then
@@ -113,11 +113,11 @@ pastebin () {
 
 	INPUT=$(</dev/stdin)
 	#echo "aaa $INPUT"
-	cat - | curl -X POST -d 'api_dev_key=qNBRIuQN_aAjIIoz7m7ae1jY7V9Y92IV' -d 'api_option=paste' -d 'api_paste_code='"$INPUT"'' "https://pastebin.com/api/api_post.php"
+	cat - | curl -X POST -d 'api_dev_key='"$API_KEY"'' -d 'api_option=paste' -d 'api_paste_code='"$INPUT"'' "https://pastebin.com/api/api_post.php"
   else
   	#echo "$1" | sed '1s/^/api_paste_code=/g' | sed 's/$/\%0A/g' | curl -d @- -d 'api_dev_key='"$API_KEY"'' -d 'api_option=paste' 'http://pastebin.com/api/api_post.php'
 	
-	curl -X POST -d 'api_dev_key=qNBRIuQN_aAjIIoz7m7ae1jY7V9Y92IV' -d 'api_paste_code='"$1"'' -d 'api_option=paste' "https://pastebin.com/api/api_post.php"
+	curl -X POST -d 'api_dev_key='"$API_KEY"'' -d 'api_paste_code='"$1"'' -d 'api_option=paste' "https://pastebin.com/api/api_post.php"
   fi
   printf '\n'
 }
@@ -125,9 +125,10 @@ dockhandRun() {
 	docker run -d --name dockhand --restart unless-stopped   -p 3001:3000 --env PUID=1000 --env PGID=1000 --group-add 991  -v /var/run/docker.sock:/var/run/docker.sock   -v /home/chaos/dockhand_data:/app/data   fnsys/dockhand:latest
 }
 postgresql-docker-run() {
+	: "${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}"
 	docker run --name postgres -d --rm \
 		-p 5432:5432 \
-		-e POSTGRES_PASSWORD=rakietnica \
+		-e POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
 		-v /mnt/optane15GB/var/lib/postgresql:/var/lib/postgresql \
 		dhi.io/postgres:18-alpine3.22
 }
